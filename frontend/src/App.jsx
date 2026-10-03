@@ -4,7 +4,7 @@ function App() {
   return (
     <div className="app">
       <nav className="navbar">
-        <h2 className="logo">LocalFix</h2>
+        <h2 className="logo">Local<span>Fix</span></h2>
 
         <div className="nav-links">
           <a href="#">Home</a>
@@ -15,7 +15,7 @@ function App() {
         </div>
       </nav>
 
-      <main>
+      <main className="app-content">
         <section className="hero">
           <h1>Find Trusted Local Services</h1>
           <p>Connect with reliable service providers nearby.</p>
