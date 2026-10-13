@@ -9,7 +9,11 @@ function Login() {
       <div className="auth-card">
         <h1>Welcome Back</h1>
         <p>Login to your LocalFix account</p>
-        <form>
+        <form
+         onSubmit={(e) => {
+    e.preventDefault();
+    navigate("/customer-dashboard");
+  }}>
           <input
             type="email"
             placeholder="Enter your email"/>

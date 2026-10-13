@@ -1,19 +1,35 @@
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useNavigate
+} from "react-router-dom";
+
 import Login from "./pages/login";
 import Register from "./pages/register";
+import CustomerDashboard from "./pages/CustomerDashboard";
+import MyRequests from "./pages/MyRequests";
+import Profile from "./pages/Profile";
+import Providers from "./pages/Providers";
+
 import "./App.css";
+
 
 function Home() {
   const navigate = useNavigate();
 
   return (
     <div className="app">
+
+      {/* Navbar */}
       <nav className="navbar">
+
         <h2 className="logo">
           Local<span>Fix</span>
         </h2>
 
         <div className="nav-links">
+
           <a href="#">Home</a>
           <a href="#">Services</a>
           <a href="#">Providers</a>
@@ -27,28 +43,44 @@ function Home() {
           <button onClick={() => navigate("/register")}>
             Register
           </button>
+
         </div>
+
       </nav>
 
+
+      {/* Home Content */}
       <main className="app-content">
+
         <section className="hero">
-          <h1>Find Trusted Local Services</h1>
+
+          <h1>
+            Find Trusted Local Services
+          </h1>
 
           <p>
             Connect with reliable service providers nearby.
           </p>
 
           <div className="search-box">
+
             <input
               type="text"
               placeholder="Enter your service name"
             />
 
-            <button>Search</button>
+            <button>
+              Search
+            </button>
+
           </div>
+
         </section>
 
+
+        {/* Popular Services */}
         <section className="services-offered">
+
           <h2>Mostly Used</h2>
 
           <div className="service-container">
@@ -82,26 +114,66 @@ function Home() {
             </div>
 
           </div>
+
         </section>
+
       </main>
+
     </div>
   );
 }
 
+
 function App() {
+
   return (
     <BrowserRouter>
+
       <Routes>
 
-        <Route path="/" element={<Home />} />
+        {/* Home */}
+        <Route
+          path="/"
+          element={<Home />}
+        />
 
-        <Route path="/login" element={<Login />} />
+        {/* Authentication */}
+        <Route
+          path="/login"
+          element={<Login />}
+        />
 
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/register"
+          element={<Register />}
+        />
 
+        {/* Customer Dashboard */}
+        <Route
+          path="/customer-dashboard"
+          element={<CustomerDashboard />}
+        />
+
+        {/* Customer Pages */}
+        <Route
+          path="/my-requests"
+          element={<MyRequests />}
+        />
+
+        <Route
+          path="/profile"
+          element={<Profile />}
+        />
+
+        <Route
+  path="/providers"
+  element={<Providers />}
+/>
       </Routes>
+
     </BrowserRouter>
   );
 }
+
 
 export default App;
