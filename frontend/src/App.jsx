@@ -36,6 +36,10 @@ function Home() {
           <a href="#">About</a>
           <a href="#">Contact</a>
 
+          <button onClick={() => navigate("/profile")}>
+            Profile
+          </button>
+
           <button onClick={() => navigate("/login")}>
             Login
           </button>

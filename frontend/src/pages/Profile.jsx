@@ -23,7 +23,8 @@ function Profile() {
             My Requests
           </button>
 
-          <button>
+
+          <button onClick={() => navigate("/profile")}>
             Profile
           </button>
 
@@ -43,11 +44,11 @@ function Profile() {
 
           <h3>Customer Profile</h3>
 
-          <p>Name: Customer Name</p>
+          <p>Name: N. Jaya Surya</p>
 
-          <p>Email: customer@email.com</p>
+          <p>Email: nukalajayasurya@gmail.com</p>
 
-          <p>Role: Customer</p>
+          <p>Role: Owner</p>
 
         </div>
 
