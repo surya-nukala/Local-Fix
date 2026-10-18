@@ -1,12 +1,90 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../App.css";
 
 function Providers() {
+
   const navigate = useNavigate();
+
+  // Get the service name from the URL
+  const { service } = useParams();
+
+  // Provider data
+  const providers = [
+    {
+      name: "Ravi Electrical Services",
+      service: "electrician",
+      experience: "5 years",
+      location: "Eluru"
+    },
+    {
+      name: "Venkat Electrical Works",
+      service: "electrician",
+      experience: "8 years",
+      location: "Eluru"
+    },
+    {
+      name: "Suresh Plumbing Services",
+      service: "plumber",
+      experience: "7 years",
+      location: "Eluru"
+    },
+    {
+      name: "Ramesh Plumbing Works",
+      service: "plumber",
+      experience: "4 years",
+      location: "Eluru"
+    },
+    {
+      name: "CoolCare Services",
+      service: "ac-repair",
+      experience: "4 years",
+      location: "Eluru"
+    },
+    {
+      name: "Sri AC Solutions",
+      service: "ac-repair",
+      experience: "6 years",
+      location: "Eluru"
+    },
+    {
+      name: "CleanPro Services",
+      service: "home-cleaning",
+      experience: "6 years",
+      location: "Eluru"
+    },
+    {
+      name: "HomeCare Experts",
+      service: "home-cleaning",
+      experience: "3 years",
+      location: "Eluru"
+    }
+  ];
+
+  // Filter providers according to selected service
+  const filteredProviders = providers.filter(
+    (provider) => provider.service === service
+  );
+
+  // Convert URL name into readable service name
+  let serviceName = service;
+
+  if (service === "ac-repair") {
+    serviceName = "AC Repair";
+  }
+  else if (service === "home-cleaning") {
+    serviceName = "Home Cleaning";
+  }
+  else if (service === "electrician") {
+    serviceName = "Electrician";
+  }
+  else if (service === "plumber") {
+    serviceName = "Plumber";
+  }
 
   return (
     <div className="dashboard">
 
+      {/* Navigation bar */}
       <nav className="dashboard-navbar">
 
         <h2 className="logo">
@@ -27,10 +105,6 @@ function Providers() {
             Profile
           </button>
 
-          <button onClick={() => navigate("/providers")}>
-            Providers
-          </button>
-
           <button onClick={() => navigate("/")}>
             Logout
           </button>
@@ -39,122 +113,60 @@ function Providers() {
 
       </nav>
 
+      {/* Provider section */}
       <main className="dashboard-content">
 
-        <h1>Service Providers</h1>
+        <h1>{serviceName} Providers</h1>
 
         <p>
-          Find trusted professionals for your service needs.
+          Find trusted {serviceName} professionals near you.
         </p>
 
         <div className="service-container">
 
-          {/* Provider 1 */}
-          <div className="service-card">
+          {filteredProviders.length > 0 ? (
 
-            <h3>Ravi Electrical Services</h3>
+            filteredProviders.map((provider) => (
 
-            <p>Service: Electrician</p>
+              <div className="service-card" key={provider.name}>
 
-            <p>Experience: 5 years</p>
+                <h3>{provider.name}</h3>
 
-            <p>Location: Eluru</p>
+                <p>
+                  Service: {serviceName}
+                </p>
 
-            <button onClick={() => navigate("/provider-profile")}>
-              View Profile
-            </button>
+                <p>
+                  Experience: {provider.experience}
+                </p>
 
-          </div>
+                <p>
+                  Location: {provider.location}
+                </p>
 
+                <button
+                  onClick={() => navigate("/provider-profile")}
+                >
+                  View Profile
+                </button>
 
-          {/* Provider 2 */}
-          <div className="service-card">
+              </div>
 
-            <h3>Suresh Plumbing Services</h3>
+            ))
 
-            <p>Service: Plumber</p>
+          ) : (
 
-            <p>Experience: 7 years</p>
+            <div className="service-card">
 
-            <p>Location: Eluru</p>
+              <h3>No Providers Found</h3>
+            
+              <p>
+                No providers are available for this service.
+              </p>
 
-            <button onClick={() => navigate("/provider-profile")}>
-              View Profile
-            </button>
+            </div>
 
-          </div>
-
-
-          {/* Provider 3 */}
-          <div className="service-card">
-
-            <h3>CoolCare Services</h3>
-
-            <p>Service: AC Repair</p>
-
-            <p>Experience: 4 years</p>
-
-            <p>Location: Eluru</p>
-
-            <button onClick={() => navigate("/provider-profile")}>
-              View Profile
-            </button>
-
-          </div>
-
-
-          {/* Provider 4 */}
-          <div className="service-card">
-
-            <h3>CleanPro Services</h3>
-
-            <p>Service: Home Cleaning</p>
-
-            <p>Experience: 6 years</p>
-
-            <p>Location: Eluru</p>
-
-            <button onClick={() => navigate("/provider-profile")}>
-              View Profile
-            </button>
-
-          </div>
-
-
-          {/* Provider 5 */}
-          <div className="service-card">
-
-            <h3>Venkat Electrical Works</h3>
-
-            <p>Service: Electrician</p>
-
-            <p>Experience: 8 years</p>
-
-            <p>Location: Eluru</p>
-
-            <button onClick={() => navigate("/provider-profile")}>
-              View Profile
-            </button>
-
-          </div>
-
-
-          {/* Provider 6 */}
-          <div className="service-card">
-
-            <h3>HomeCare Experts</h3>
-
-            <p>Service: Home Cleaning</p>
-
-            <p>Experience: 3 years</p>
-
-            <p>Location: Eluru</p>
-
-            <button onClick={() => navigate("/provider-profile")}>
-              View Profile
-            </button>
-
-          </div>
+          )}
 
         </div>
 
