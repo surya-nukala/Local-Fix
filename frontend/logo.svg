@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <!-- Black Rounded Square Background -->
+  <rect width="100" height="100" rx="22" fill="#111111" />
+  
+  <!-- Letter L -->
+  <path d="M 24 32 L 35 32 L 35 64 L 50 64 L 50 74 L 24 74 Z" fill="#ffffff" />
+  
+  <!-- Letter F -->
+  <path d="M 56 42 L 80 42 L 80 51 L 67 51 L 67 57 L 78 57 L 78 66 L 67 66 L 67 74 L 56 74 Z" fill="#ffffff" />
+  
+  <!-- Curved Roof / Signal Arc above F -->
+  <path d="M 55 34 Q 68 22 82 34" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" />
+</svg>
