@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "../App.css";
+import logo from "../assets/logo_img.png";
 
 function Register() {
   const navigate = useNavigate();
@@ -8,6 +9,7 @@ function Register() {
     <div className="auth-page">
 
       <div className="auth-card">
+        <img src={logo} alt="LocalFix Logo" className="auth-logo" />
 
         <h1>Create Account</h1>
 

@@ -11,6 +11,7 @@ import CustomerDashboard from "./pages/CustomerDashboard";
 import MyRequests from "./pages/MyRequests";
 import Profile from "./pages/Profile";
 import Providers from "./pages/Providers";
+import logo from "./assets/logo_img.png";
 
 import "./App.css";
 
@@ -24,9 +25,7 @@ function Home() {
       {/* Navbar */}
       <nav className="navbar">
 
-        <h2 className="logo">
-          Local<span>Fix</span>
-        </h2>
+        <img src={logo} alt="LocalFix Logo" className="site-logo" />
 
         <div className="nav-links">
 

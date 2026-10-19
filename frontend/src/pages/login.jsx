@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "../App.css";
+import logo from "../assets/logo_img.png";
 
 function Login() {
   const navigate = useNavigate();
@@ -7,6 +8,7 @@ function Login() {
   return (
     <div className="auth-page">
       <div className="auth-card">
+        <img src={logo} alt="LocalFix Logo" className="auth-logo" />
         <h1>Welcome Back</h1>
         <p>Login to your LocalFix account</p>
         <form

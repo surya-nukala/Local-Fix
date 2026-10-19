@@ -1,14 +1,15 @@
 import { useNavigate, useParams } from "react-router-dom";
 import "../App.css";
+import logo from "../assets/logo_img.png";
 
 function Providers() {
 
   const navigate = useNavigate();
 
-  // Get the service name from the URL
+  // Get selected service from URL
   const { service } = useParams();
 
-  // Provider data
+  // Provider details
   const providers = [
     {
       name: "Ravi Electrical Services",
@@ -60,36 +61,38 @@ function Providers() {
     }
   ];
 
-  // Filter providers according to selected service
+  // Show only providers for selected service
   const filteredProviders = providers.filter(
     (provider) => provider.service === service
   );
 
-  // Convert URL name into readable service name
+  // Convert service name into readable format
   let serviceName = service;
 
-  if (service === "ac-repair") {
-    serviceName = "AC Repair";
-  }
-  else if (service === "home-cleaning") {
-    serviceName = "Home Cleaning";
-  }
-  else if (service === "electrician") {
+  if (service === "electrician") {
     serviceName = "Electrician";
   }
   else if (service === "plumber") {
     serviceName = "Plumber";
   }
+  else if (service === "ac-repair") {
+    serviceName = "AC Repair";
+  }
+  else if (service === "home-cleaning") {
+    serviceName = "Home Cleaning";
+  }
 
   return (
     <div className="dashboard">
 
-      {/* Navigation bar */}
+      {/* Navigation Bar */}
       <nav className="dashboard-navbar">
 
-        <h2 className="logo">
-          Local<span>Fix</span>
-        </h2>
+        <img
+          src={logo}
+          alt="LocalFix Logo"
+          className="site-logo"
+        />
 
         <div className="dashboard-links">
 
@@ -113,7 +116,7 @@ function Providers() {
 
       </nav>
 
-      {/* Provider section */}
+      {/* Main Content */}
       <main className="dashboard-content">
 
         <h1>{serviceName} Providers</h1>
@@ -128,7 +131,10 @@ function Providers() {
 
             filteredProviders.map((provider) => (
 
-              <div className="service-card" key={provider.name}>
+              <div
+                className="service-card"
+                key={provider.name}
+              >
 
                 <h3>{provider.name}</h3>
 
@@ -159,7 +165,7 @@ function Providers() {
             <div className="service-card">
 
               <h3>No Providers Found</h3>
-            
+
               <p>
                 No providers are available for this service.
               </p>

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "../App.css";
+import logo from "../assets/logo_img.png";
 
 function CustomerDashboard() {
   const navigate = useNavigate();
@@ -9,9 +10,7 @@ function CustomerDashboard() {
 
       <nav className="dashboard-navbar">
 
-        <h2 className="logo">
-          Local<span>Fix</span>
-        </h2>
+        <img src={logo} alt="LocalFix Logo" className="site-logo" />
 
         <div className="dashboard-links">
 
