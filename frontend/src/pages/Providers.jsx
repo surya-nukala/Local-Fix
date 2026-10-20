@@ -151,7 +151,11 @@ function Providers() {
                 </p>
 
                 <button
-                  onClick={() => navigate("/provider-profile")}
+                  onClick={() =>
+                    navigate(
+                      `/provider-profile/${encodeURIComponent(provider.name)}`
+                    )
+                  }
                 >
                   View Profile
                 </button>

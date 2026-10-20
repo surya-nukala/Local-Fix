@@ -12,7 +12,8 @@ import MyRequests from "./pages/MyRequests";
 import Profile from "./pages/Profile";
 import Providers from "./pages/Providers";
 import logo from "./assets/logo_img.png";
-
+import ProviderProfile from "./pages/ProviderDetails";
+import RequestService from "./pages/RequestService";
 import "./App.css";
 
 
@@ -167,11 +168,19 @@ function App() {
           path="/profile"
           element={<Profile />}
         />
+        <Route
+          path="/provider-profile/:name"
+          element={<ProviderProfile />}
+        />
 
         <Route
-  path="/providers"
-  element={<Providers />}
-/>
+          path="/providers/:service"
+          element={<Providers />}
+        />
+        <Route
+          path="/request-service/:name"
+          element={<RequestService />}
+        />
       </Routes>
 
     </BrowserRouter>

@@ -3,18 +3,24 @@ import "../App.css";
 import logo from "../assets/logo_img.png";
 
 function CustomerDashboard() {
+
   const navigate = useNavigate();
 
   return (
     <div className="dashboard">
 
+      {/* Navigation Bar */}
       <nav className="dashboard-navbar">
 
-        <img src={logo} alt="LocalFix Logo" className="site-logo" />
+        <img
+          src={logo}
+          alt="LocalFix Logo"
+          className="logo-image"
+        />
 
         <div className="dashboard-links">
 
-          <button>
+          <button onClick={() => navigate("/customer-dashboard")}>
             Home
           </button>
 
@@ -34,6 +40,7 @@ function CustomerDashboard() {
 
       </nav>
 
+      {/* Dashboard Content */}
       <main className="dashboard-content">
 
         <h1>Welcome to LocalFix</h1>
@@ -42,60 +49,79 @@ function CustomerDashboard() {
           Find trusted local service providers near you.
         </p>
 
-        <div className="dashboard-search">
+        <h2>Popular Services</h2>
 
-          <input
-            type="text"
-            placeholder="What service do you need?"
-          />
+        <div className="service-container">
 
-          <button>
-            Search
-          </button>
+          {/* Electrician */}
+          <div className="service-card">
 
-        </div>
+            <h3>Electrician</h3>
 
-        <section className="dashboard-services">
+            <p>
+              Find trusted electricians near you.
+            </p>
 
-          <h2>Popular Services</h2>
-
-          <div className="service-container">
-
-            <div className="service-card">
-              <h3>Electrician</h3>
-              <p>Find trusted electricians.</p>
-              <button onClick={() => navigate("/providers")}>
-                View Providers
-              </button>
-            </div>
-
-            <div className="service-card">
-              <h3>Plumber</h3>
-              <p>Find reliable plumbers.</p>
-              <button onClick={() => navigate("/providers")}>
-                View Providers
-              </button>
-            </div>
-
-            <div className="service-card">
-              <h3>AC Repair</h3>
-              <p>Find AC repair professionals.</p>
-              <button onClick={() => navigate("/providers")}>
-                View Providers
-              </button>
-            </div>
-
-            <div className="service-card">
-              <h3>Home Cleaning</h3>
-              <p>Find cleaning professionals.</p>
-              <button onClick={() => navigate("/providers")}>
-                View Providers
-</button>
-            </div>
+            <button
+              onClick={() => navigate("/providers/electrician")}
+            >
+              View Providers
+            </button>
 
           </div>
 
-        </section>
+          {/* Plumber */}
+          <div className="service-card">
+
+            <h3>Plumber</h3>
+
+            <p>
+              Find trusted plumbers near you.
+            </p>
+
+            <button
+              onClick={() => navigate("/providers/plumber")}
+            >
+              View Providers
+            </button>
+
+          </div>
+
+          {/* AC Repair */}
+          <div className="service-card">
+
+            <h3>AC Repair</h3>
+
+            <p>
+              Find trusted AC repair professionals near you.
+            </p>
+
+            <button
+              onClick={() => navigate("/providers/ac-repair")}
+            >
+              View Providers
+            </button>
+
+          </div>
+
+          {/* Home Cleaning */}
+          <div className="service-card">
+
+            <h3>Home Cleaning</h3>
+
+            <p>
+              Find trusted home cleaning professionals near you.
+            </p>
+
+            <button
+              onClick={() => navigate("/providers/home-cleaning")}
+            >
+              View Providers
+            </button>
+
+          </div>
+
+        </div>
 
       </main>
 
