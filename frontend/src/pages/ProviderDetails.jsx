@@ -117,6 +117,7 @@ function ProviderDetails() {
               onClick={() =>
                 navigate(
                   `/request-service/${encodeURIComponent(provider.name)}?service=${encodeURIComponent(provider.service)}`
+                  + `&location=${encodeURIComponent(provider.location)}`
                 )
               }
             >

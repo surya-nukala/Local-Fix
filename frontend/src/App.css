@@ -172,6 +172,11 @@
   background-color: #333333;
 }
 
+.request-actions {
+  display: flex;
+  gap: 1rem;
+}
+
 /* Authentication Pages */
 .auth-page {
   min-height: 100vh;
@@ -196,7 +201,12 @@
   margin-bottom: 0.5rem;
 }
 
-.auth-card > p {
+.auth-card h2 {
+  color: #111111;
+  margin: 0 0 1.5rem;
+}
+
+.auth-card p {
   color: #666666;
   margin-bottom: 2rem;
 }
@@ -215,7 +225,15 @@
   border-radius: 6px;
   background-color: white;
 }
-
+.auth-back-button {
+  margin-top: 1.5rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #f0f0f0;
+  color: #111111;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
 .auth-card form button {
   padding: 0.8rem;
   background-color: #111111;
@@ -228,6 +246,10 @@
 
 .auth-card form button:hover {
   background-color: #333333;
+}
+
+.auth-back-button {
+  margin-top: 1.5rem;
 }
 
 .auth-switch {

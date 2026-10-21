@@ -12,26 +12,25 @@ function RequestService() {
 
   const handleRequest = () => {
 
-    const request = {
+    const newRequest = {
+      id: Date.now(),
       provider: providerName,
       service: service,
+      location: "Eluru",
       status: "Pending"
     };
 
-    let savedRequests = [];
+    const savedRequests = localStorage.getItem("serviceRequests");
 
-    try {
-      const storedRequests = JSON.parse(
-        localStorage.getItem("serviceRequests") || "[]"
-      );
-      savedRequests = Array.isArray(storedRequests) ? storedRequests : [];
-    } catch {
-      savedRequests = [];
-    }
+    const requests = savedRequests
+      ? JSON.parse(savedRequests)
+      : [];
+
+    requests.push(newRequest);
 
     localStorage.setItem(
       "serviceRequests",
-      JSON.stringify([...savedRequests, request])
+      JSON.stringify(requests)
     );
 
     alert("Service request sent successfully!");
@@ -54,6 +53,10 @@ function RequestService() {
 
           <p>
             <strong>Service:</strong> {service}
+          </p>
+
+          <p>
+            <strong>Location:</strong> Eluru
           </p>
 
           <p>

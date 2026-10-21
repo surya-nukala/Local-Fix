@@ -14,6 +14,8 @@ import Providers from "./pages/Providers";
 import logo from "./assets/logo_img.png";
 import ProviderProfile from "./pages/ProviderDetails";
 import RequestService from "./pages/RequestService";
+import ProvidersDashboard from "./pages/ProvidersDashboard";
+import ProviderLogin from "./pages/ProviderLogin";
 import "./App.css";
 
 
@@ -42,6 +44,10 @@ function Home() {
 
           <button onClick={() => navigate("/login")}>
             Login
+          </button>
+
+          <button onClick={() => navigate("/provider-login")}>
+            Provider Login
           </button>
 
           <button onClick={() => navigate("/register")}>
@@ -180,6 +186,14 @@ function App() {
         <Route
           path="/request-service/:name"
           element={<RequestService />}
+        />
+        <Route
+          path="/providers-dashboard"
+          element={<ProvidersDashboard/>}
+        />
+        <Route
+          path="/provider-login"
+          element={<ProviderLogin/>}
         />
       </Routes>
 
