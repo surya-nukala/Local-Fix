@@ -37,18 +37,21 @@ function Profile() {
 
       <main className="dashboard-content">
 
-        <h1>My Profile</h1>
-
-        <div className="profile-card">
-
-          <h3>Customer Profile</h3>
-
-          <p>Name: N. Jaya Surya</p>
-
-          <p>Email: nukalajayasurya@gmail.com</p>
-
-          <p>Role: Owner</p>
-
+        <p className="eyebrow">ACCOUNT SETTINGS</p>
+        <h1>My profile</h1>
+        <div className="profile-card account-profile-card">
+          <div className="profile-hero">
+            <div className="profile-avatar">N</div>
+            <div>
+              <h2>N. Jaya Surya</h2>
+              <p>LocalFix customer</p>
+            </div>
+          </div>
+          <div className="profile-details">
+            <div><span>Full name</span><strong>N. Jaya Surya</strong></div>
+            <div><span>Email address</span><strong>nukalajayasurya@gmail.com</strong></div>
+            <div><span>Account type</span><strong>Customer</strong></div>
+          </div>
         </div>
 
       </main>

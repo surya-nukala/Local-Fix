@@ -43,37 +43,19 @@ function RequestService() {
 
       <main className="dashboard-content">
 
-        <div className="service-card">
-
-          <h1>Send Service Request</h1>
-
-          <p>
-            <strong>Provider:</strong> {providerName}
-          </p>
-
-          <p>
-            <strong>Service:</strong> {service}
-          </p>
-
-          <p>
-            <strong>Location:</strong> Eluru
-          </p>
-
-          <p>
-            Please confirm your request for this service provider.
-          </p>
-
-          <button onClick={handleRequest}>
-            Confirm Request
+        <div className="service-card request-confirmation">
+          <p className="eyebrow">FINAL STEP</p>
+          <h1>Confirm your request</h1>
+          <p className="request-lead">Review the details below. The professional will respond to your request shortly.</p>
+          <div className="confirmation-details">
+            <div><span>Professional</span><strong>{providerName}</strong></div>
+            <div><span>Service</span><strong>{service}</strong></div>
+            <div><span>Location</span><strong>Eluru</strong></div>
+          </div>
+          <button className="primary-action" onClick={handleRequest}>
+            Confirm request <span aria-hidden="true">→</span>
           </button>
-
-          <br />
-          <br />
-
-          <button onClick={() => navigate(-1)}>
-            Back
-          </button>
-
+          <button className="secondary-action" onClick={() => navigate(-1)}>Go back</button>
         </div>
 
       </main>

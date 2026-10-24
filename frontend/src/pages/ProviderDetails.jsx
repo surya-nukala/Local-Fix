@@ -58,6 +58,30 @@ function ProviderDetails() {
       service: "home-cleaning",
       experience: "3 years",
       location: "Eluru"
+    },
+    {
+      name: "WoodCraft Carpentry",
+      service: "carpenter",
+      experience: "9 years",
+      location: "Eluru"
+    },
+    {
+      name: "ColourNest Painters",
+      service: "painting",
+      experience: "7 years",
+      location: "Eluru"
+    },
+    {
+      name: "Shield Pest Solutions",
+      service: "pest-control",
+      experience: "5 years",
+      location: "Eluru"
+    },
+    {
+      name: "GlowUp Home Salon",
+      service: "salon",
+      experience: "6 years",
+      location: "Eluru"
     }
   ];
 
@@ -102,18 +126,30 @@ function ProviderDetails() {
       {/* Main Content */}
       <main className="dashboard-content">
 
-        <h1>{provider ? provider.name : "Provider Not Found"}</h1>
+        <p className="eyebrow">PROVIDER PROFILE</p>
 
         {provider ? (
-          <div className="profile-card">
-
-            <h3>{provider.name}</h3>
-
-            <p>Service: {provider.service}</p>
-            <p>Experience: {provider.experience}</p>
-            <p>Location: {provider.location}</p>
+          <div className="profile-card provider-profile-card">
+            <div className="profile-hero">
+              <div className="profile-avatar">{provider.name.charAt(0)}</div>
+              <div>
+                <h1>{provider.name}</h1>
+                <p className="provider-rating">★ 4.8 <span>· Highly rated local professional</span></p>
+              </div>
+              <span className="verified-badge">✓ Verified</span>
+            </div>
+            <div className="profile-details">
+              <div><span>Service</span><strong>{provider.service}</strong></div>
+              <div><span>Experience</span><strong>{provider.experience}</strong></div>
+              <div><span>Location</span><strong>{provider.location}</strong></div>
+            </div>
+            <div className="profile-about">
+              <h3>About this professional</h3>
+              <p>Reliable local service with transparent communication and quality workmanship.</p>
+            </div>
 
             <button
+              className="primary-action"
               onClick={() =>
                 navigate(
                   `/request-service/${encodeURIComponent(provider.name)}?service=${encodeURIComponent(provider.service)}`
@@ -121,7 +157,7 @@ function ProviderDetails() {
                 )
               }
             >
-              Send Service Request
+              Request this service <span aria-hidden="true">→</span>
             </button>
 
           </div>

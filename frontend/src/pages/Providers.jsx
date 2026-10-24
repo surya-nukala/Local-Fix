@@ -58,6 +58,30 @@ function Providers() {
       service: "home-cleaning",
       experience: "3 years",
       location: "Eluru"
+    },
+    {
+      name: "WoodCraft Carpentry",
+      service: "carpenter",
+      experience: "9 years",
+      location: "Eluru"
+    },
+    {
+      name: "ColourNest Painters",
+      service: "painting",
+      experience: "7 years",
+      location: "Eluru"
+    },
+    {
+      name: "Shield Pest Solutions",
+      service: "pest-control",
+      experience: "5 years",
+      location: "Eluru"
+    },
+    {
+      name: "GlowUp Home Salon",
+      service: "salon",
+      experience: "6 years",
+      location: "Eluru"
     }
   ];
 
@@ -78,9 +102,11 @@ function Providers() {
   else if (service === "ac-repair") {
     serviceName = "AC Repair";
   }
-  else if (service === "home-cleaning") {
-    serviceName = "Home Cleaning";
-  }
+  else if (service === "home-cleaning") serviceName = "Home Cleaning";
+  else if (service === "carpenter") serviceName = "Carpentry";
+  else if (service === "painting") serviceName = "Painting";
+  else if (service === "pest-control") serviceName = "Pest Control";
+  else if (service === "salon") serviceName = "Salon at Home";
 
   return (
     <div className="dashboard">
@@ -119,11 +145,14 @@ function Providers() {
       {/* Main Content */}
       <main className="dashboard-content">
 
-        <h1>{serviceName} Providers</h1>
-
-        <p>
-          Find trusted {serviceName} professionals near you.
-        </p>
+        <div className="listing-header">
+          <div>
+            <p className="eyebrow">LOCALFIX MARKETPLACE</p>
+            <h1>{serviceName} providers</h1>
+            <p>Professionals near you, verified for quality and reliability.</p>
+          </div>
+          <span className="result-count">{filteredProviders.length} providers</span>
+        </div>
 
         <div className="service-container">
 
@@ -131,24 +160,14 @@ function Providers() {
 
             filteredProviders.map((provider) => (
 
-              <div
-                className="service-card"
-                key={provider.name}
-              >
-
+              <article className="service-card provider-card" key={provider.name}>
+                <div className="provider-card-top">
+                  <div className="provider-avatar">{provider.name.charAt(0)}</div>
+                  <span className="verified-badge">✓ Verified</span>
+                </div>
                 <h3>{provider.name}</h3>
-
-                <p>
-                  Service: {serviceName}
-                </p>
-
-                <p>
-                  Experience: {provider.experience}
-                </p>
-
-                <p>
-                  Location: {provider.location}
-                </p>
+                <p className="provider-rating">★ 4.8 <span>· 24 reviews</span></p>
+                <p className="provider-meta">● {provider.location} &nbsp; · &nbsp; {provider.experience} experience</p>
 
                 <button
                   onClick={() =>
@@ -156,11 +175,8 @@ function Providers() {
                       `/provider-profile/${encodeURIComponent(provider.name)}`
                     )
                   }
-                >
-                  View Profile
-                </button>
-
-              </div>
+                >View profile <span aria-hidden="true">→</span></button>
+              </article>
 
             ))
 

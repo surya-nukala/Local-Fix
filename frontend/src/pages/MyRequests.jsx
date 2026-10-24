@@ -47,11 +47,9 @@ function MyRequests() {
 
       <main className="dashboard-content">
 
-        <h1>My Requests</h1>
-
-        <p>
-          You can view your service requests here.
-        </p>
+        <p className="eyebrow">CUSTOMER ACTIVITY</p>
+        <h1>My requests</h1>
+        <p>Track the services you have requested from LocalFix professionals.</p>
 
         {requests.length > 0 ? (
 
@@ -59,12 +57,16 @@ function MyRequests() {
 
             {requests.map((request) => (
 
-              <div
-                className="service-card"
-                key={request.id}
-              >
-
-                <h3>{request.provider}</h3>
+              <article className="service-card request-card" key={request.id}>
+                <div className="request-card-header">
+                  <div>
+                    <p className="eyebrow">SERVICE REQUEST</p>
+                    <h3>{request.provider}</h3>
+                  </div>
+                  <span className={`status-pill status-${request.status.toLowerCase()}`}>
+                    {request.status}
+                  </span>
+                </div>
 
                 <p>
                   <strong>Service:</strong> {request.service}
@@ -74,11 +76,7 @@ function MyRequests() {
                   <strong>Location:</strong> {request.location}
                 </p>
 
-                <p>
-                  <strong>Status:</strong> {request.status}
-                </p>
-
-              </div>
+              </article>
 
             ))}
 
