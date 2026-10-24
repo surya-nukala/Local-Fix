@@ -7,12 +7,14 @@ function ProviderLogin() {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const providerName = formData.get("providerName")?.trim();
 
-    // For now, use Ravi as the logged-in provider
-    localStorage.setItem(
-      "loggedInProvider",
-      "Ravi Electrical Services"
-    );
+    if (!providerName) {
+      return;
+    }
+
+    localStorage.setItem("loggedInProvider", providerName);
 
     navigate("/providers-dashboard");
   };
@@ -34,6 +36,7 @@ function ProviderLogin() {
 
           <input
             type="text"
+            name="providerName"
             placeholder="Enter Provider Name"
             required
           />
