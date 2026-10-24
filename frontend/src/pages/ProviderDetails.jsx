@@ -14,6 +14,20 @@ function ProviderDetails() {
   const [provider, setProvider] = useState(null);
   const [error, setError] = useState("");
   const providerName = decodeURIComponent(name ?? "");
+  const savedUser = localStorage.getItem("localfixUser");
+  const currentUser = savedUser ? JSON.parse(savedUser) : null;
+  const isProviderPreview = currentUser?.role === "provider";
+  const handleRequestClick = () => {
+    if (!localStorage.getItem("localfixToken") || currentUser?.role !== "customer") {
+      navigate("/login", { state: { from: `/provider-profile/${name}` } });
+      return;
+    }
+
+    navigate(
+      `/request-service/${encodeURIComponent(provider.name)}?service=${encodeURIComponent(provider.service)}`
+      + `&location=${encodeURIComponent(provider.location)}`
+    );
+  };
 
   useEffect(() => {
     apiRequest("/providers")
@@ -83,17 +97,19 @@ function ProviderDetails() {
               <p>Reliable local service with transparent communication and quality workmanship.</p>
             </div>
 
-            <button
-              className="primary-action"
-              onClick={() =>
-                navigate(
-                  `/request-service/${encodeURIComponent(provider.name)}?service=${encodeURIComponent(provider.service)}`
-                  + `&location=${encodeURIComponent(provider.location)}`
-                )
-              }
-            >
-              Request this service <span aria-hidden="true">→</span>
-            </button>
+            {isProviderPreview ? (
+              <div className="preview-notice">
+                <strong>Provider preview mode</strong>
+                <span>Booking is available only to customer accounts.</span>
+              </div>
+            ) : (
+              <button
+                className="primary-action"
+                onClick={handleRequestClick}
+              >
+                Request this service <span aria-hidden="true">→</span>
+              </button>
+            )}
 
           </div>
         ) : (

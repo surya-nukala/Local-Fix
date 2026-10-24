@@ -104,7 +104,7 @@ function ProvidersDashboard() {
             <h1>Good morning, {currentProvider}</h1>
             <p>Keep your requests moving and your customers informed.</p>
           </div>
-          <button className="secondary-action profile-action" onClick={() => navigate("/customer-dashboard")}>
+          <button className="secondary-action profile-action" onClick={() => navigate("/")}>
             Preview marketplace
           </button>
         </div>
@@ -163,6 +163,11 @@ function ProvidersDashboard() {
                   <div className="request-info-row">
                     <span>⌖</span>
                     <div><small>Service location</small><strong>{request.location}</strong></div>
+                  </div>
+                  <div className="request-preferences">
+                    <small>Customer preferences</small>
+                    <strong>{request.preferredDate} at {request.preferredTime}</strong>
+                    {request.notes && <p>{request.notes}</p>}
                   </div>
                   <div className="request-info-row">
                     <span>◷</span>

@@ -7,6 +7,7 @@ import { apiRequest } from "../api";
 function Register() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [role, setRole] = useState("");
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -28,7 +29,10 @@ function Register() {
           name: formData.get("name"),
           email: formData.get("email"),
           password,
-          role: formData.get("role")
+          role: formData.get("role"),
+          service: formData.get("service"),
+          experience: formData.get("experience"),
+          location: formData.get("location")
         })
       });
       localStorage.setItem("localfixToken", result.token);
@@ -80,12 +84,46 @@ function Register() {
             required
           />
 
-          <select name="role" defaultValue="" required>
+          <select
+            name="role"
+            value={role}
+            onChange={(event) => setRole(event.target.value)}
+            required
+          >
             <option value="">Select your role</option>
             <option value="customer">Customer</option>
             <option value="provider">Service Provider</option>
           </select>
 
+          {role === "provider" && (
+            <div className="provider-registration-fields">
+              <p className="form-section-label">Provider details</p>
+              <select name="service" defaultValue="" required>
+                <option value="">Select your service</option>
+                <option value="electrician">Electrician</option>
+                <option value="plumber">Plumbing</option>
+                <option value="ac-repair">AC & Appliance</option>
+                <option value="home-cleaning">Home Cleaning</option>
+                <option value="carpenter">Carpentry</option>
+                <option value="painting">Painting</option>
+                <option value="pest-control">Pest Control</option>
+                <option value="salon">Salon at Home</option>
+              </select>
+              <input
+                type="text"
+                name="experience"
+                placeholder="Experience (for example, 5 years)"
+                required
+              />
+              <input
+                type="text"
+                name="location"
+                placeholder="Service location"
+                defaultValue="Eluru"
+                required
+              />
+            </div>
+          )}
           {error && <p role="alert">{error}</p>}
 
           <button type="submit">

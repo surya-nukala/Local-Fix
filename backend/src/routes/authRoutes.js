@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import express from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import Provider from "../models/Provider.js";
 import { requireAuth } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -12,7 +13,23 @@ function createToken(user) {
 
 router.post("/register", async (request, response, next) => {
   try {
-    const { name, email, password, role } = request.body;
+    const {
+      name,
+      email,
+      password,
+      role,
+      service,
+      experience,
+      location
+    } = request.body;
+    if (!["customer", "provider"].includes(role)) {
+      return response.status(400).json({ message: "Select a valid account role" });
+    }
+    if (role === "provider" && (!service || !experience || !location)) {
+      return response.status(400).json({
+        message: "Provider service, experience, and location are required"
+      });
+    }
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return response.status(409).json({ message: "An account with this email already exists" });
@@ -20,6 +37,9 @@ router.post("/register", async (request, response, next) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ name, email, password: hashedPassword, role });
+    if (role === "provider") {
+      await Provider.create({ userId: user._id, email, name, service, experience, location });
+    }
     response.status(201).json({
       token: createToken(user),
       user: { id: user._id, name: user.name, email: user.email, role: user.role }

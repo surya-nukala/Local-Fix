@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../App.css";
 import logo from "../assets/logo_img.png";
 import { apiRequest } from "../api";
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -26,7 +27,7 @@ function Login() {
       });
       localStorage.setItem("localfixToken", result.token);
       localStorage.setItem("localfixUser", JSON.stringify(result.user));
-      navigate("/customer-dashboard");
+      navigate(location.state?.from || "/customer-dashboard");
     } catch (requestError) {
       setError(requestError.message);
     } finally {
