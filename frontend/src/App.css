@@ -925,6 +925,15 @@ body {
   font-size: 0.82rem !important;
 }
 
+.form-success {
+  margin: 0 !important;
+  padding: 0.65rem 0.8rem;
+  color: #24714f !important;
+  background: #eaf7ef;
+  border-radius: 8px;
+  font-size: 0.82rem !important;
+}
+
 /* Marketplace components */
 .dashboard-brand {
   display: flex;
