@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../App.css";
 import logo from "../assets/logo_img.png";
+import { apiRequest } from "../api";
 
 function ProviderDetails() {
 
@@ -9,85 +11,17 @@ function ProviderDetails() {
   // Get provider name from URL
   const { name } = useParams();
 
-  // Provider details
-  const providers = [
-    {
-      name: "Ravi Electrical Services",
-      service: "electrician",
-      experience: "5 years",
-      location: "Eluru"
-    },
-    {
-      name: "Venkat Electrical Works",
-      service: "electrician",
-      experience: "8 years",
-      location: "Eluru"
-    },
-    {
-      name: "Suresh Plumbing Services",
-      service: "plumber",
-      experience: "7 years",
-      location: "Eluru"
-    },
-    {
-      name: "Ramesh Plumbing Works",
-      service: "plumber",
-      experience: "4 years",
-      location: "Eluru"
-    },
-    {
-      name: "CoolCare Services",
-      service: "ac-repair",
-      experience: "4 years",
-      location: "Eluru"
-    },
-    {
-      name: "Sri AC Solutions",
-      service: "ac-repair",
-      experience: "6 years",
-      location: "Eluru"
-    },
-    {
-      name: "CleanPro Services",
-      service: "home-cleaning",
-      experience: "6 years",
-      location: "Eluru"
-    },
-    {
-      name: "HomeCare Experts",
-      service: "home-cleaning",
-      experience: "3 years",
-      location: "Eluru"
-    },
-    {
-      name: "WoodCraft Carpentry",
-      service: "carpenter",
-      experience: "9 years",
-      location: "Eluru"
-    },
-    {
-      name: "ColourNest Painters",
-      service: "painting",
-      experience: "7 years",
-      location: "Eluru"
-    },
-    {
-      name: "Shield Pest Solutions",
-      service: "pest-control",
-      experience: "5 years",
-      location: "Eluru"
-    },
-    {
-      name: "GlowUp Home Salon",
-      service: "salon",
-      experience: "6 years",
-      location: "Eluru"
-    }
-  ];
+  const [provider, setProvider] = useState(null);
+  const [error, setError] = useState("");
+  const providerName = decodeURIComponent(name ?? "");
 
-  const provider = providers.find(
-    (candidate) => candidate.name === decodeURIComponent(name ?? "")
-  );
+  useEffect(() => {
+    apiRequest("/providers")
+      .then((providers) => {
+        setProvider(providers.find((candidate) => candidate.name === providerName) || null);
+      })
+      .catch((requestError) => setError(requestError.message));
+  }, [providerName]);
 
   return (
     <div className="dashboard">
@@ -127,6 +61,7 @@ function ProviderDetails() {
       <main className="dashboard-content">
 
         <p className="eyebrow">PROVIDER PROFILE</p>
+        {error && <div className="service-card api-error">{error}. Start the backend and seed MongoDB to load this profile.</div>}
 
         {provider ? (
           <div className="profile-card provider-profile-card">

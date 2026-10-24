@@ -2,12 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 import logo from "../assets/logo_img.png";
+import { apiRequest } from "../api";
 
 function Register() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     setError("");
 
@@ -20,7 +21,22 @@ function Register() {
       return;
     }
 
-    navigate("/login");
+    try {
+      const result = await apiRequest("/auth/register", {
+        method: "POST",
+        body: JSON.stringify({
+          name: formData.get("name"),
+          email: formData.get("email"),
+          password,
+          role: formData.get("role")
+        })
+      });
+      localStorage.setItem("localfixToken", result.token);
+      localStorage.setItem("localfixUser", JSON.stringify(result.user));
+      navigate(result.user.role === "provider" ? "/providers-dashboard" : "/customer-dashboard");
+    } catch (requestError) {
+      setError(requestError.message);
+    }
   }
 
   return (

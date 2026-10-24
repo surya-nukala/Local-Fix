@@ -1,94 +1,22 @@
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../App.css";
 import logo from "../assets/logo_img.png";
+import { apiRequest } from "../api";
 
 function Providers() {
-
   const navigate = useNavigate();
-
-  // Get selected service from URL
   const { service } = useParams();
+  const [providers, setProviders] = useState([]);
+  const [error, setError] = useState("");
 
-  // Provider details
-  const providers = [
-    {
-      name: "Ravi Electrical Services",
-      service: "electrician",
-      experience: "5 years",
-      location: "Eluru"
-    },
-    {
-      name: "Venkat Electrical Works",
-      service: "electrician",
-      experience: "8 years",
-      location: "Eluru"
-    },
-    {
-      name: "Suresh Plumbing Services",
-      service: "plumber",
-      experience: "7 years",
-      location: "Eluru"
-    },
-    {
-      name: "Ramesh Plumbing Works",
-      service: "plumber",
-      experience: "4 years",
-      location: "Eluru"
-    },
-    {
-      name: "CoolCare Services",
-      service: "ac-repair",
-      experience: "4 years",
-      location: "Eluru"
-    },
-    {
-      name: "Sri AC Solutions",
-      service: "ac-repair",
-      experience: "6 years",
-      location: "Eluru"
-    },
-    {
-      name: "CleanPro Services",
-      service: "home-cleaning",
-      experience: "6 years",
-      location: "Eluru"
-    },
-    {
-      name: "HomeCare Experts",
-      service: "home-cleaning",
-      experience: "3 years",
-      location: "Eluru"
-    },
-    {
-      name: "WoodCraft Carpentry",
-      service: "carpenter",
-      experience: "9 years",
-      location: "Eluru"
-    },
-    {
-      name: "ColourNest Painters",
-      service: "painting",
-      experience: "7 years",
-      location: "Eluru"
-    },
-    {
-      name: "Shield Pest Solutions",
-      service: "pest-control",
-      experience: "5 years",
-      location: "Eluru"
-    },
-    {
-      name: "GlowUp Home Salon",
-      service: "salon",
-      experience: "6 years",
-      location: "Eluru"
-    }
-  ];
+  useEffect(() => {
+    apiRequest(`/providers?service=${encodeURIComponent(service)}`)
+      .then(setProviders)
+      .catch((requestError) => setError(requestError.message));
+  }, [service]);
 
-  // Show only providers for selected service
-  const filteredProviders = providers.filter(
-    (provider) => provider.service === service
-  );
+  const filteredProviders = providers;
 
   // Convert service name into readable format
   let serviceName = service;
@@ -153,6 +81,8 @@ function Providers() {
           </div>
           <span className="result-count">{filteredProviders.length} providers</span>
         </div>
+
+        {error && <div className="service-card api-error">{error}. Start the backend and seed MongoDB to load providers.</div>}
 
         <div className="service-container">
 

@@ -1079,6 +1079,18 @@ body {
   text-align: center;
 }
 
+.api-error {
+  margin-bottom: 1rem;
+  color: #a13d42;
+  background: #fff0f0;
+  border-color: #f2c9cb;
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
 .dashboard-empty-state .empty-state-icon {
   display: block;
   margin-bottom: 1rem;

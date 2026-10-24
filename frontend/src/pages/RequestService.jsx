@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import "../App.css";
+import { apiRequest } from "../api";
 
 function RequestService() {
 
@@ -7,35 +9,23 @@ function RequestService() {
   const { name } = useParams();
   const [searchParams] = useSearchParams();
 
-  const providerName = decodeURIComponent(name);
+  const providerName = decodeURIComponent(name ?? "");
   const service = searchParams.get("service");
+  const location = searchParams.get("location") || "Eluru";
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleRequest = () => {
 
-    const newRequest = {
-      id: Date.now(),
-      provider: providerName,
-      service: service,
-      location: "Eluru",
-      status: "Pending"
-    };
-
-    const savedRequests = localStorage.getItem("serviceRequests");
-
-    const requests = savedRequests
-      ? JSON.parse(savedRequests)
-      : [];
-
-    requests.push(newRequest);
-
-    localStorage.setItem(
-      "serviceRequests",
-      JSON.stringify(requests)
-    );
-
-    alert("Service request sent successfully!");
-
-    navigate("/my-requests");
+    setIsSubmitting(true);
+    setError("");
+    apiRequest("/requests", {
+      method: "POST",
+      body: JSON.stringify({ provider: providerName, service, location })
+    })
+      .then(() => navigate("/my-requests"))
+      .catch((requestError) => setError(requestError.message))
+      .finally(() => setIsSubmitting(false));
   };
 
   return (
@@ -50,10 +40,11 @@ function RequestService() {
           <div className="confirmation-details">
             <div><span>Professional</span><strong>{providerName}</strong></div>
             <div><span>Service</span><strong>{service}</strong></div>
-            <div><span>Location</span><strong>Eluru</strong></div>
+            <div><span>Location</span><strong>{location}</strong></div>
           </div>
-          <button className="primary-action" onClick={handleRequest}>
-            Confirm request <span aria-hidden="true">→</span>
+          {error && <p className="api-error">{error}. Start the backend and MongoDB before submitting.</p>}
+          <button className="primary-action" onClick={handleRequest} disabled={isSubmitting}>
+            {isSubmitting ? "Sending..." : "Confirm request"} {!isSubmitting && <span aria-hidden="true">→</span>}
           </button>
           <button className="secondary-action" onClick={() => navigate(-1)}>Go back</button>
         </div>

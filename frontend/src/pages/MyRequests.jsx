@@ -1,16 +1,21 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 import logo from "../assets/logo_img.png";
+import { apiRequest } from "../api";
 
 function MyRequests() {
 
   const navigate = useNavigate();
 
-  const savedRequests = localStorage.getItem("serviceRequests");
+  const [requests, setRequests] = useState([]);
+  const [error, setError] = useState("");
 
-  const requests = savedRequests
-    ? JSON.parse(savedRequests)
-    : [];
+  useEffect(() => {
+    apiRequest("/requests")
+      .then(setRequests)
+      .catch((requestError) => setError(requestError.message));
+  }, []);
 
   return (
     <div className="dashboard">
@@ -50,6 +55,7 @@ function MyRequests() {
         <p className="eyebrow">CUSTOMER ACTIVITY</p>
         <h1>My requests</h1>
         <p>Track the services you have requested from LocalFix professionals.</p>
+        {error && <div className="service-card api-error">{error}. Start the backend and MongoDB to load requests.</div>}
 
         {requests.length > 0 ? (
 

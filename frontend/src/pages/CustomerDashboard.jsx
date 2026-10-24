@@ -24,7 +24,16 @@ function DashboardNav({ navigate }) {
         <button onClick={() => navigate("/customer-dashboard")}>Services</button>
         <button onClick={() => navigate("/my-requests")}>My Requests</button>
         <button onClick={() => navigate("/profile")}>Profile</button>
-        <button className="nav-logout" onClick={() => navigate("/")}>Log out</button>
+        <button
+          className="nav-logout"
+          onClick={() => {
+            localStorage.removeItem("localfixToken");
+            localStorage.removeItem("localfixUser");
+            navigate("/");
+          }}
+        >
+          Log out
+        </button>
       </div>
     </nav>
   );

@@ -1,22 +1,36 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 import logo from "../assets/logo_img.png";
+import { apiRequest } from "../api";
 
 function ProviderLogin() {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const providerName = formData.get("providerName")?.trim();
-
-    if (!providerName) {
-      return;
+    setError("");
+    setLoading(true);
+    try {
+      const result = await apiRequest("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({
+          email: formData.get("email"),
+          password: formData.get("password"),
+          role: "provider"
+        })
+      });
+      localStorage.setItem("localfixToken", result.token);
+      localStorage.setItem("localfixUser", JSON.stringify(result.user));
+      navigate("/providers-dashboard");
+    } catch (requestError) {
+      setError(requestError.message);
+    } finally {
+      setLoading(false);
     }
-
-    localStorage.setItem("loggedInProvider", providerName);
-
-    navigate("/providers-dashboard");
   };
 
   return (
@@ -35,20 +49,22 @@ function ProviderLogin() {
         <form onSubmit={handleLogin}>
 
           <input
-            type="text"
-            name="providerName"
-            placeholder="Enter Provider Name"
+            type="email"
+            name="email"
+            placeholder="Enter provider email"
             required
           />
 
           <input
             type="password"
+            name="password"
             placeholder="Enter Password"
             required
           />
 
-          <button type="submit">
-            Login
+          {error && <p className="form-error" role="alert">{error}</p>}
+          <button type="submit" disabled={loading}>
+            {loading ? "Signing in..." : "Login"}
           </button>
 
         </form>

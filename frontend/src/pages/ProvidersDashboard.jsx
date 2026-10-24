@@ -1,15 +1,26 @@
 import { useMemo, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 import logo from "../assets/logo_img.png";
+import { apiRequest } from "../api";
 
 function ProvidersDashboard() {
   const navigate = useNavigate();
-  const currentProvider = localStorage.getItem("loggedInProvider");
-  const savedRequests = localStorage.getItem("serviceRequests");
-  const allRequests = savedRequests ? JSON.parse(savedRequests) : [];
+  const savedUser = localStorage.getItem("localfixUser");
+  const currentUser = savedUser ? JSON.parse(savedUser) : null;
+  const currentProvider = currentUser?.name;
   const [filter, setFilter] = useState("All");
-  const [requests, setRequests] = useState(allRequests);
+  const [requests, setRequests] = useState([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (currentProvider) {
+      apiRequest(`/requests?provider=${encodeURIComponent(currentProvider)}`)
+        .then(setRequests)
+        .catch((requestError) => setError(requestError.message));
+    }
+  }, [currentProvider]);
 
   const providerRequests = useMemo(
     () => requests.filter((request) => request.provider === currentProvider),
@@ -24,12 +35,18 @@ function ProvidersDashboard() {
   const acceptedCount = providerRequests.filter((request) => request.status === "Accepted").length;
 
   const updateStatus = (id, status) => {
-    const updatedRequests = requests.map((request) =>
-      request.id === id ? { ...request, status } : request
-    );
-
-    localStorage.setItem("serviceRequests", JSON.stringify(updatedRequests));
-    setRequests(updatedRequests);
+    apiRequest(`/requests/${id}/status`, {
+      method: "PATCH",
+      body: JSON.stringify({ status })
+    })
+      .then((updatedRequest) => {
+        setRequests((currentRequests) =>
+          currentRequests.map((request) =>
+            request._id === updatedRequest._id ? updatedRequest : request
+          )
+        );
+      })
+      .catch((requestError) => setError(requestError.message));
   };
 
   if (!currentProvider) {
@@ -69,7 +86,8 @@ function ProvidersDashboard() {
           <button
             className="nav-logout"
             onClick={() => {
-              localStorage.removeItem("loggedInProvider");
+              localStorage.removeItem("localfixToken");
+              localStorage.removeItem("localfixUser");
               navigate("/");
             }}
           >
@@ -79,6 +97,7 @@ function ProvidersDashboard() {
       </nav>
 
       <main className="dashboard-content provider-workspace">
+        {error && <div className="service-card api-error">{error}. Start the backend and MongoDB to load provider requests.</div>}
         <div className="dashboard-intro">
           <div>
             <p className="eyebrow">PROVIDER CONSOLE</p>
@@ -131,7 +150,7 @@ function ProvidersDashboard() {
           {visibleRequests.length > 0 ? (
             <div className="provider-request-grid">
               {visibleRequests.map((request) => (
-                <article className="service-card request-card provider-request-card" key={request.id}>
+                <article className="service-card request-card provider-request-card" key={request._id}>
                   <div className="request-card-header">
                     <div>
                       <p className="eyebrow">SERVICE REQUEST</p>
@@ -147,12 +166,12 @@ function ProvidersDashboard() {
                   </div>
                   <div className="request-info-row">
                     <span>◷</span>
-                    <div><small>Request ID</small><strong>#{String(request.id).slice(-6)}</strong></div>
+                    <div><small>Request ID</small><strong>#{String(request._id).slice(-6)}</strong></div>
                   </div>
                   {request.status === "Pending" && (
                     <div className="request-actions">
-                      <button onClick={() => updateStatus(request.id, "Accepted")}>Accept request</button>
-                      <button onClick={() => updateStatus(request.id, "Rejected")}>Decline</button>
+                      <button onClick={() => updateStatus(request._id, "Accepted")}>Accept request</button>
+                      <button onClick={() => updateStatus(request._id, "Rejected")}>Decline</button>
                     </div>
                   )}
                 </article>
