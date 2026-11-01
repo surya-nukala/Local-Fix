@@ -25,7 +25,7 @@ function ProviderDetails() {
 
     navigate(
       `/request-service/${encodeURIComponent(provider.name)}?service=${encodeURIComponent(provider.service)}`
-      + `&location=${encodeURIComponent(provider.location)}`
+      + `&location=${encodeURIComponent(provider.location)}&providerId=${provider._id}`
     );
   };
 

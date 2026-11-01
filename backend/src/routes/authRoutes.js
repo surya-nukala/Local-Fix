@@ -26,6 +26,12 @@ router.post("/register", async (request, response, next) => {
       experience,
       location
     } = request.body;
+    if (typeof name !== "string" || name.trim().length < 2 || name.trim().length > 100) {
+      return response.status(400).json({ message: "Name must be between 2 and 100 characters" });
+    }
+    if (typeof password !== "string" || password.length < 8 || password.length > 128) {
+      return response.status(400).json({ message: "Password must be between 8 and 128 characters" });
+    }
     if (!["customer", "provider"].includes(role)) {
       return response.status(400).json({ message: "Select a valid account role" });
     }
@@ -35,15 +41,25 @@ router.post("/register", async (request, response, next) => {
       });
     }
     const normalizedEmail = normalizeEmail(email);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      return response.status(400).json({ message: "Enter a valid email address" });
+    }
     const existingUser = await User.findOne({ email: normalizedEmail });
     if (existingUser) {
       return response.status(409).json({ message: "An account with this email already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, email: normalizedEmail, password: hashedPassword, role });
+    const user = await User.create({ name: name.trim(), email: normalizedEmail, password: hashedPassword, role });
     if (role === "provider") {
-      await Provider.create({ userId: user._id, email: normalizedEmail, name, service, experience, location });
+      await Provider.create({
+        userId: user._id,
+        email: normalizedEmail,
+        name: name.trim(),
+        service,
+        experience,
+        location
+      });
     }
     response.status(201).json({
       token: createToken(user),
@@ -58,6 +74,9 @@ router.post("/login", async (request, response, next) => {
   try {
     const { password, role } = request.body;
     const email = normalizeEmail(request.body.email);
+    if (!email || typeof password !== "string") {
+      return response.status(400).json({ message: "Email and password are required" });
+    }
     const user = await User.findOne({ email });
     const passwordMatches = user && await bcrypt.compare(password, user.password);
 

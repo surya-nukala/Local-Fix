@@ -6,7 +6,7 @@ This is the simple Express and MongoDB API for LocalFix.
 
 1. Install MongoDB locally, or create a MongoDB Atlas database.
 2. Copy `.env.example` to `.env`.
-3. Set `MONGO_URI` in `.env`.
+3. Set the production `MONGO_URI`, `CLIENT_URL`, and a 32+ character `JWT_SECRET` in `.env`.
 4. Install packages:
 
 ```bash
@@ -54,3 +54,11 @@ VITE_API_URL=http://localhost:5000/api
 Authentication uses JWT tokens. The frontend stores the returned token and
 sends it with protected requests. Customer requests are linked to the logged-in
 customer, and providers can update only their own requests.
+
+## Production deployment
+
+Deploy the backend with `npm start` and configure the environment variables from
+`.env.example`. Use MongoDB Atlas, restrict `CLIENT_URL` to the deployed
+frontend origin, and never commit `.env` files. Deploy the frontend with
+`npm run build`, serving the generated `dist` directory and setting
+`VITE_API_URL` to the deployed backend URL ending in `/api`.

@@ -10,6 +10,7 @@ function RequestService() {
   const [searchParams] = useSearchParams();
 
   const providerName = decodeURIComponent(name ?? "");
+  const providerId = searchParams.get("providerId");
   const service = searchParams.get("service");
   const location = searchParams.get("location") || "Eluru";
   const [error, setError] = useState("");
@@ -40,6 +41,7 @@ function RequestService() {
       method: "POST",
       body: JSON.stringify({
         provider: providerName,
+        providerId,
         service,
         location,
         preferredDate: preferences.date,
