@@ -14,6 +14,17 @@ const services = [
 ];
 
 function DashboardNav({ navigate }) {
+  const savedUser = localStorage.getItem("localfixUser");
+  let currentUser = null;
+
+  try {
+    currentUser = savedUser ? JSON.parse(savedUser) : null;
+  } catch {
+    localStorage.removeItem("localfixUser");
+  }
+
+  const isLoggedIn = Boolean(localStorage.getItem("localfixToken") && currentUser);
+
   return (
     <nav className="dashboard-navbar">
       <button className="dashboard-brand" onClick={() => navigate("/")}>
@@ -22,18 +33,29 @@ function DashboardNav({ navigate }) {
       </button>
       <div className="dashboard-links">
         <button onClick={() => navigate("/customer-dashboard")}>Services</button>
-        <button onClick={() => navigate("/my-requests")}>My Requests</button>
-        <button onClick={() => navigate("/profile")}>Profile</button>
-        <button
-          className="nav-logout"
-          onClick={() => {
-            localStorage.removeItem("localfixToken");
-            localStorage.removeItem("localfixUser");
-            navigate("/");
-          }}
-        >
-          Log out
-        </button>
+        {isLoggedIn ? (
+          <>
+            <button onClick={() => navigate("/my-requests")}>My Requests</button>
+            <button onClick={() => navigate("/profile")}>Profile</button>
+            <button
+              className="nav-logout"
+              onClick={() => {
+                localStorage.removeItem("localfixToken");
+                localStorage.removeItem("localfixUser");
+                navigate("/");
+              }}
+            >
+              Log out
+            </button>
+          </>
+        ) : (
+          <>
+            <button onClick={() => navigate("/login")}>Login</button>
+            <button className="register-btn" onClick={() => navigate("/register")}>
+              Get Started
+            </button>
+          </>
+        )}
       </div>
     </nav>
   );

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../App.css";
-import logo from "../assets/logo_img.png";
 import { apiRequest } from "../api";
+import { DashboardNav } from "./CustomerDashboard";
 
 function ProviderDetails() {
 
@@ -40,36 +40,7 @@ function ProviderDetails() {
   return (
     <div className="dashboard">
 
-      {/* Navigation Bar */}
-      <nav className="dashboard-navbar">
-
-        <img
-          src={logo}
-          alt="LocalFix Logo"
-          className="logo-image"
-        />
-
-        <div className="dashboard-links">
-
-          <button onClick={() => navigate("/customer-dashboard")}>
-            Home
-          </button>
-
-          <button onClick={() => navigate("/my-requests")}>
-            My Requests
-          </button>
-
-          <button onClick={() => navigate("/profile")}>
-            Profile
-          </button>
-
-          <button onClick={() => navigate("/")}>
-            Logout
-          </button>
-
-        </div>
-
-      </nav>
+      <DashboardNav navigate={navigate} />
 
       {/* Main Content */}
       <main className="dashboard-content">
